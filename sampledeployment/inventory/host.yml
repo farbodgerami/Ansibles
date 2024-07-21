@@ -1,0 +1,23 @@
+all:
+  vars:
+  ansible_port: 22
+  # ansible_host: 192.168.122.148
+  children:
+    # web-servers:
+    #   hosts:
+    #     web1:
+    #       ansible_host: 192.168.122.148
+    #       # ansible_port: 22
+    #       ansible_user: fbg
+    # tools-servers:
+    #   hosts:
+    #     web2:
+    #       ansible_host: 192.168.122.148
+    #       # ansible_port: 22
+    #       ansible_user: fbg
+    ansible-server:
+      hosts:
+        web3:
+          ansible_host: 5.34.192.65
+          # ansible_port: 22
+          ansible_user: root

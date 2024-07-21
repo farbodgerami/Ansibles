@@ -1,0 +1,40 @@
+---
+# - name: check gather facts
+#   debug:
+#     var: ansible_facts
+
+
+- name: check webserver vars
+  debug:
+    msg: "my name is {{ my_name }} and my age is {{ my_age }}"
+
+- name: Copy a.txt
+  ansible.builtin.copy:
+  # age file morede nazar too poosheye files bashe dar src faghat esme file ro benevis
+    src: a.txt
+    dest: /home/fbg/
+    
+    # owner: foo
+    # group: foo
+    # mode: u=rw,g=r,o=r
+
+- name: copy foo.j2
+  ansible.builtin.template:
+    src: foo.j2
+    dest: /home/fbg/
+ 
+# - name: install vim
+#   ansible.builtin.apt:
+#     name: vim
+#     state: present
+
+- name: add a line in bar file
+  ansible.builtin.lineinfile:
+    path: ~/a.txt
+    
+    line: hi me!
+
+- name: copy foo.j2
+  ansible.builtin.template:
+    src: foo.j2
+    dest: /home/fbg/

@@ -1,0 +1,4 @@
+---
+- name: check gather facts
+  debug:
+    var: ansible_facts

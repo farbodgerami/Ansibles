@@ -1,0 +1,12 @@
+
+---
+- name: copy compose file
+  template:
+    src: compose.yml.j2
+    dest: "{{ rabbit_DIRE_NAME}}/compose.yml"
+ 
+
+- name: copy config file
+  template:
+    src: rabbitmq.conf.j2
+    dest: "{{ rabbit_DIRE_NAME}}/configfile/rabbitmq.conf"

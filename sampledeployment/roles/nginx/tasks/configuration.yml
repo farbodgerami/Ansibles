@@ -1,0 +1,53 @@
+ 
+# certbot vase anjame kar be porte 80 niaz dare pass bayad service nginx ro stop konim ta porte 80 khali she va certbot betoone azash estefade kone:
+- name: stop nginx service
+  systemd:
+    name: nginx
+    state: stopped
+    
+- name: create certificate
+  shell: certbot certonly --standalone --non-interactive --agree-tos --preferred-challenges http --email {{ cert.email }} -d {{ cert.domain }}
+
+
+- name: Remove default file nginx config
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+# - name: copy static files
+#   ansible.builtin.copy:
+#     src: site.zip
+#     dest: /var/www/html/site.zip
+
+# - name: Extract file
+#   ansible.builtin.unarchive:
+#     src: /var/www/html/site.zip
+#     dest: /var/www/html/
+#     # havaset bashe dar ghesmate copy site.zip ro rikhtim too server va dar masire dest pass dar inja lazeme ke begirm file dakhele
+#     # server ro behard pass darim:
+#     remote_src: yes
+
+# bejaye 2 ta balai ha darim:
+
+- name: copy the file from here to server and extract 
+  ansible.builtin.unarchive:
+    src: site.zip
+    dest: /var/www/html/
+
+- name: move nginx config file
+  template: 
+    src: site.conf.j2
+    dest: /etc/nginx/conf.d/site.conf
+  notify: RestartNginx
+# dar inja khastim ke gather fact kone va ghesmate lsb.codename ro neshoon bede
+# hal darim: "ansible_facts.lsb.codename": "jammy" pass hamino mitoonim jahaye dge estefade konim
+- name: check gather facts 
+  debug:
+    var: ansible_facts.lsb.codename
+  tags: test
+
+- name: move htpasswd config file
+  ansible.builtin.template:
+    src: htpasswd.j2
+    dest: /etc/nginx/conf.d/htpasswd
+  notify: RestartNginx

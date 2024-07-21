@@ -1,0 +1,7 @@
+---
+- name: pull all image
+  import_tasks: image-pull.yaml
+
+- name: config and setup all service
+  import_tasks: repo-setup.yaml
+ 

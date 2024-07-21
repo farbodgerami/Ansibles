@@ -1,0 +1,10 @@
+- name: sample playbook
+# test: hosts bezan web1 badesh web2 badesh fargho bebin
+  hosts: all
+  gather_facts: false
+  roles:
+  # mire dakhele roles va poosheye sample ro migarde va kar anjam mide
+    # - sample
+    # - sample2
+    - nginx
+ 

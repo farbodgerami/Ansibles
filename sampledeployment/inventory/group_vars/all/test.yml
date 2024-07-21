@@ -1,0 +1,7 @@
+---
+hicap: james
+
+myos: 
+  - debian
+  - ubuntu
+  - centos

@@ -1,0 +1,5 @@
+---
+# defaults file for nginx
+cert:
+   domain: ansible.tlow.ir
+   email: fb.gerami@gmail.com

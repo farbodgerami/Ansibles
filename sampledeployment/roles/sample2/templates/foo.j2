@@ -1,0 +1,10 @@
+servser name is {{ inventory_hostname }} 
+
+
+  {% if hicap is defined %}
+        echo "hicap is james hetfield"
+    {% endif %}
+
+{% for line in myos %}
+echo "My os is {{ line }}"
+{% endfor %}

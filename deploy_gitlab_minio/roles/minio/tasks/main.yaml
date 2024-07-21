@@ -1,0 +1,18 @@
+---
+- name: pull all image
+  import_tasks: image-pull.yml
+  tags: imagepull
+
+- name: copy create directories 
+  import_tasks: create-directories.yml
+  tags: createdirs
+  
+- name: copy needed files
+  import_tasks: copy-files.yml
+  tags: copyfiles
+  
+- name: config and setup all service
+  import_tasks: minio-setup.yml
+  tags: composeup
+
+

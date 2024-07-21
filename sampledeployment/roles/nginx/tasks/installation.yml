@@ -1,0 +1,22 @@
+---
+- name: Install all packages service
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+    autoclean: yes
+    autoremove: yes
+  loop:
+    - nginx
+    - certbot
+    - unzip
+  notify: RestartNginx
+
+
+# - name: enable nginx
+#   systemd:
+#     name: nginx
+#     enabled: yes
+#     state: started
+
+

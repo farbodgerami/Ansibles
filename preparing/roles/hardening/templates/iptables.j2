@@ -1,0 +1,41 @@
+*mangle
+:PREROUTING ACCEPT [12699:1349405]
+:INPUT ACCEPT [11861:1293339]
+:FORWARD ACCEPT [810:48600]
+:OUTPUT ACCEPT [11626:1067369]
+:POSTROUTING ACCEPT [12436:1115969]
+-A PREROUTING -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP
+-A PREROUTING -p tcp -m tcp --tcp-flags FIN,SYN FIN,SYN -j DROP
+-A PREROUTING -p tcp -m tcp --tcp-flags SYN,RST SYN,RST -j DROP
+-A PREROUTING -p tcp -m tcp --tcp-flags FIN,SYN FIN,SYN -j DROP
+-A PREROUTING -p tcp -m tcp --tcp-flags FIN,RST FIN,RST -j DROP
+-A PREROUTING -p tcp -m tcp --tcp-flags FIN,ACK FIN -j DROP
+-A PREROUTING -p tcp -m tcp --tcp-flags ACK,URG URG -j DROP
+-A PREROUTING -p tcp -m tcp --tcp-flags FIN,ACK FIN -j DROP
+-A PREROUTING -p tcp -m tcp --tcp-flags PSH,ACK PSH -j DROP
+-A PREROUTING -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,SYN,RST,PSH,ACK,URG -j DROP
+-A PREROUTING -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP
+-A PREROUTING -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,PSH,URG -j DROP
+-A PREROUTING -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,SYN,PSH,URG -j DROP
+-A PREROUTING -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,SYN,RST,ACK,URG -j DROP
+COMMIT
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:CHECK_INPUT - [0:0]
+:CHECK_OUTPUT - [0:0]
+-A INPUT -j CHECK_INPUT
+-A INPUT -j DROP
+-A OUTPUT -j CHECK_OUTPUT
+-A OUTPUT -j DROP
+-A CHECK_INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A CHECK_INPUT -i lo -j ACCEPT 
+-A CHECK_INPUT -p tcp -m tcp --dport 8431 -j ACCEPT
+-A CHECK_INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+-A CHECK_INPUT -p tcp -m tcp --dport 80 -j ACCEPT 
+-A CHECK_INPUT -p icmp --icmp-type echo-request -j ACCEPT  
+-A CHECK_OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A CHECK_OUTPUT -j ACCEPT
+-A CHECK_OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT  
+COMMIT

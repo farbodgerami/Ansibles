@@ -1,5 +1,5 @@
 - name: limits.conf
-  become: 'yes'
+  become: true
   ansible.builtin.template:
     src: limits.conf.j2
     dest: /etc/security/limits.conf

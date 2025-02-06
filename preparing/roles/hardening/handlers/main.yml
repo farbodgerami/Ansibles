@@ -16,6 +16,11 @@
     name: ntpd
     state: restarted
 
+- name: Restart iptables
+  systemd:
+    name: iptables
+    state: restarted
+    
 - name: reload systemd
   systemd:
     daemon_reload: 'yes'

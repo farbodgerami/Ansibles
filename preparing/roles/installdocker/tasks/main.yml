@@ -9,9 +9,6 @@
   apt:
       name: "{{ item }}"
       state: present
-      # update_cache: yes
-      # autoclean: yes
-      # autoremove: yes
   loop:
     - apt-transport-https
     - ca-certificates
@@ -21,15 +18,33 @@
  
  
 
-- name: Add Docker GPG apt Key
+- name: Add Docker GPG apt Key for ubuntu
   apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
         state: present
+  when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: Add Docker Repository
+- name: Add Docker Repository for ubuntu
   apt_repository:
     repo: deb https://download.docker.com/linux/ubuntu focal stable
     state: present
+  when: ansible_facts['distribution'] == "Ubuntu"
+
+- name: Add Docker GPG apt Key
+  apt_key:
+        # url: https://download.docker.com/linux/debian/gpg 
+        url: https://repo.tpcms.ir/repository/debian-docker/gpg
+        state: present
+  when: ansible_facts['distribution'] == "Debian"
+
+- name: Add Docker Repository
+  apt_repository:
+    #repo: deb https://download.docker.com/linux/debian bookworm stable
+    repo: deb https://repo.tpcms.ir/repository/debian-docker bookworm stable 
+    
+    state: present
+  when: ansible_facts['distribution'] == "Debian"
+
 
 - name: install docker
   apt:
@@ -43,6 +58,7 @@
     - docker-compose-plugin
     - docker-compose
     - docker-buildx-plugin 
+    
 - name: config docker
   template:
     src: docker-service.j2

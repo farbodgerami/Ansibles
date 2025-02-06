@@ -11,9 +11,9 @@
   import_tasks: systemctlHardening.yml
   tags: systemctlHardening
 
-- name: change resolved.conf
-  import_tasks: resolvedconf.yml
-  tags: dnsHardening 
+# - name: change resolved.conf
+#   import_tasks: resolvedconf.yml
+#   tags: dnsHardening 
 
 - name: limit
   import_tasks: limit.yml
@@ -30,5 +30,3 @@
 - name: reload systemd
   systemd:
     daemon_reload: 'yes'
-
-

@@ -1,0 +1,7 @@
+---
+- name: mymachine
+  hosts: all
+
+  gather_facts: yes
+  roles:
+    - { role: installminio, tags: minio }

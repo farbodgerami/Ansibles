@@ -1,0 +1,70 @@
+
+---    
+- name: Update and upgrade apt packages
+  tags: upateupgrade
+  apt:
+    update_cache: yes
+    upgrade: yes
+    autoremove: yes
+    autoclean: yes
+    # 
+    cache_valid_time: 86400
+  # ignore_errors: yes
+
+
+
+- name: Creates directory
+  file:
+    path: "/opt/services"
+    state: directory
+  tags: createfolder
+
+ 
+
+- name: Download minio.deb
+  tags: download
+  ansible.builtin.get_url:
+    url: https://dl.min.io/server/minio/release/linux-amd64/minio.deb
+    dest: /opt/services/
+    # mode: '0440'
+
+ 
+
+- name: Install a minio.deb package
+  tags: installdeb
+  ansible.builtin.apt:
+    deb: /opt/services/minio.deb
+
+- name: Ensure group "minio-user" exists
+  tags: creategroup
+  ansible.builtin.group:
+    name: minio-user
+    state: present
+
+- name: Add the user 'minio-user''
+  tags: createuser
+  ansible.builtin.user:
+    name: minio-user
+    groups: minio-user
+    createhome: no
+
+- name: Creates directory
+  file:
+    path: "/mnt/data"
+    state: directory
+  tags: createdatadir
+
+- name: Change file ownership, group  
+  tags: changeowner
+  ansible.builtin.file:
+    path: /mnt/data
+    owner: minio-user
+    group: minio-user
+
+- name: config minio
+  tags: configminio
+  template:
+    src: minioconfig.j2
+    dest: /etc/default/minio
+  notify: restart minio
+

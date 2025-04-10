@@ -1,0 +1,12 @@
+all:
+  vars:
+  children:
+    webservers:
+      hosts:
+        minio:
+          ansible_host:  37.32.10.243
+          ansible_port: 22
+          ansible_user: root
+
+         
+           
